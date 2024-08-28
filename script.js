@@ -6,17 +6,19 @@ document.querySelector('.inputArea').addEventListener('submit', async (event)=> 
             ${encodeURI(input)}&units=metric&lang=pt_br&appid=d06cdb298fafc83c520d5ab677fc477e`
         let results = await fetch(url)
         let json = await results.json()
-  
         if(json.cod === 200) {
+            document.querySelector('.info').style.display = 'block'
             let tempInfo = document.querySelector('.tempInfo')
-            let tempImg = document.querySelector('.tempImg')
+            let tempImg = document.querySelector('.tempImg img')
             let ventoInfo = document.querySelector('.ventoInfo')
             let ventoImg = document.querySelector('.ventoImg')
             let cityName = document.querySelector('.cityName')
 
+
             cityName.innerHTML = `${json.name}, ${json.sys.country}`
-            tempInfo.innerHTML = `${json.main.temp} º C`
-            ventoInfo.innerHTML = `${json.wind.speed} Km/h`
+            tempInfo.innerHTML = `${json.main.temp} <sup>º C</sup>`
+            ventoInfo.innerHTML = `${json.wind.speed} <span>Km/h</span>`
+            tempImg.setAttribute('src', `http://openweathermap.org/img/wn/${json.weather[0].icon}@2x.png`)
 
         } else {
             exibirAlerta('[ERRO] Não localizamos a cidade digitada, tente novamente!')
